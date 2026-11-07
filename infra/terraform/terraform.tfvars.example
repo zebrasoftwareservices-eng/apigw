@@ -1,0 +1,11 @@
+tenancy_ocid       = "ocid1.tenancy.oc1..replace-me"
+compartment_ocid   = "ocid1.compartment.oc1..replace-me"
+region             = "us-ashburn-1"
+oci_profile        = "DEFAULT"
+ssh_public_key_path = "~/.ssh/id_ed25519.pub"
+ssh_allowed_cidr     = "203.0.113.10/32"
+
+# Oracle Always Free allowance as of this repository's creation.
+instance_ocpus     = 2
+instance_memory_gb = 12
+boot_volume_size_gb = 50

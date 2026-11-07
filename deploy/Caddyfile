@@ -1,0 +1,27 @@
+{
+	email {$ACME_EMAIL}
+	admin off
+}
+
+{$GATEWAY_DOMAIN} {
+	encode zstd gzip
+	reverse_proxy kong:8000
+
+	header {
+		-Server
+		X-Content-Type-Options nosniff
+	}
+}
+
+{$ADMIN_DOMAIN} {
+	@portal {
+		header Kong-Admin-Token {$KONG_ADMIN_TOKEN}
+	}
+
+	handle @portal {
+		reverse_proxy kong:8001
+	}
+
+	# Hide the Admin API from unauthenticated callers.
+	respond 404
+}
