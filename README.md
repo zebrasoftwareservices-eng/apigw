@@ -9,6 +9,7 @@ The stack contains:
 - Kong Gateway OSS 3.9 with a PostgreSQL datastore
 - Caddy for automatic HTTPS
 - a token-protected remote Admin API for the portal server
+- an HTTPS reverse proxy for the API Portal control plane
 - Terraform for optional Oracle Cloud networking and compute
 - bootstrap, deployment, smoke-test, and backup scripts
 
@@ -19,6 +20,8 @@ API clients ──HTTPS──> Caddy ──> Kong proxy ──> upstream APIs
 
 Portal server ──HTTPS + Kong-Admin-Token──> Caddy ──> Kong Admin API
 
+Vercel portal ──HTTPS──> Caddy ──private Docker network──> Portal server
+
 Kong ──private Docker network──> PostgreSQL
 ```
 
@@ -27,7 +30,7 @@ port. Only Caddy and SSH are public.
 
 ## Quick start
 
-1. Point gateway and admin DNS names at the VM.
+1. Point gateway, admin and portal API DNS names at the VM.
 2. Bootstrap the matching operating system:
 
    ```bash
@@ -47,7 +50,8 @@ port. Only Caddy and SSH are public.
    ./scripts/generate-env.sh \
      gateway.example.com \
      admin.gateway.example.com \
-     admin@example.com
+     portal-api.gateway.example.com \
+     zebrasoftwareservices@gmail.com
    ./scripts/deploy.sh
    ```
 
@@ -78,6 +82,9 @@ a backup stored only on the VM does not protect against VM or volume loss.
 
 The deploy script detects an initialized database and runs `migrations up` and
 `migrations finish` before recreating Kong.
+
+The Caddy service expects an external Docker network named `portal-edge`;
+`scripts/deploy.sh` creates it idempotently before Compose starts.
 
 ## Local validation
 
