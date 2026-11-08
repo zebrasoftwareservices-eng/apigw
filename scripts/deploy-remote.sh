@@ -2,7 +2,7 @@
 set -euo pipefail
 
 if [[ $# -ne 1 ]]; then
-  echo "Usage: $0 ubuntu@<oracle-public-ip>" >&2
+  echo "Usage: $0 <ssh-user>@<public-ip>" >&2
   exit 2
 fi
 

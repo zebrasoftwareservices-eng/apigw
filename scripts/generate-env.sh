@@ -31,4 +31,4 @@ sed \
 
 chmod 600 "$env_file"
 echo "Created $env_file"
-echo "Point both DNS names at the Oracle VM before running ./scripts/deploy.sh"
+echo "Ensure both DNS names resolve to the VM before running ./scripts/deploy.sh"

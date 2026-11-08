@@ -88,7 +88,9 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      # Z gives the bind mount a private SELinux label on Rocky/RHEL and is
+      # harmless on Ubuntu hosts without SELinux enforcement.
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro,Z
       - caddy-data:/data
       - caddy-config:/config
     depends_on:

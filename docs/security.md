@@ -2,14 +2,19 @@
 
 ## Public surfaces
 
-Oracle's network security list and Ubuntu's firewall expose only:
+The cloud network firewall and the VM firewall expose only:
 
 - TCP 22 for SSH
 - TCP 80 for ACME redirects and certificate issuance
 - TCP 443 for HTTPS
 
 Kong ports 8000 and 8001 bind to `127.0.0.1` on the VM. Caddy is the only
-public entry point.
+public entry point. PostgreSQL has no host port. Rocky Linux uses an enabled
+firewalld public zone with a deny-by-default target; Ubuntu uses UFW.
+
+Rocky Linux must run SELinux in enforcing mode. The Caddyfile bind mount uses
+the private `Z` relabel option so Caddy can read it under container SELinux
+policy without weakening host enforcement.
 
 ## Admin API
 
@@ -26,7 +31,7 @@ Never:
 
 - put `KONG_ADMIN_TOKEN` in browser code or a `NEXT_PUBLIC_*` variable;
 - commit `.env`;
-- expose ports 8001, 5432, or the Docker socket;
+- expose ports 8000, 8001, 5432, or the Docker socket;
 - log request headers at the Caddy layer;
 - reuse the PostgreSQL password as the Admin token.
 

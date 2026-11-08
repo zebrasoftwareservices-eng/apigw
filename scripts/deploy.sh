@@ -9,7 +9,7 @@ if [[ ! -f .env ]]; then
   exit 1
 fi
 
-if grep -Eq 'example\.com|replace-with-a-random' .env; then
+if grep -Eq '^[A-Z_]+=([^#]*example\.com|replace-with-a-random)' .env; then
   echo ".env still contains example values." >&2
   exit 1
 fi
