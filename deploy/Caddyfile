@@ -25,3 +25,15 @@
 	# Hide the Admin API from unauthenticated callers.
 	respond 404
 }
+
+{$PORTAL_API_DOMAIN} {
+	encode zstd gzip
+	reverse_proxy portal-server:4000
+
+	header {
+		-Server
+		X-Content-Type-Options nosniff
+		Referrer-Policy no-referrer
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+	}
+}

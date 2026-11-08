@@ -4,8 +4,8 @@ set -euo pipefail
 repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 env_file="$repo_dir/.env"
 
-if [[ $# -ne 3 ]]; then
-  echo "Usage: $0 <gateway-domain> <admin-domain> <acme-email>" >&2
+if [[ $# -ne 4 ]]; then
+  echo "Usage: $0 <gateway-domain> <admin-domain> <portal-api-domain> <acme-email>" >&2
   exit 2
 fi
 
@@ -17,13 +17,15 @@ fi
 umask 077
 gateway_domain="$1"
 admin_domain="$2"
-acme_email="$3"
+portal_api_domain="$3"
+acme_email="$4"
 postgres_password="$(openssl rand -hex 32)"
 kong_admin_token="$(openssl rand -hex 32)"
 
 sed \
   -e "s|^GATEWAY_DOMAIN=.*|GATEWAY_DOMAIN=$gateway_domain|" \
   -e "s|^ADMIN_DOMAIN=.*|ADMIN_DOMAIN=$admin_domain|" \
+  -e "s|^PORTAL_API_DOMAIN=.*|PORTAL_API_DOMAIN=$portal_api_domain|" \
   -e "s|^ACME_EMAIL=.*|ACME_EMAIL=$acme_email|" \
   -e "s|^POSTGRES_PASSWORD=.*|POSTGRES_PASSWORD=$postgres_password|" \
   -e "s|^KONG_ADMIN_TOKEN=.*|KONG_ADMIN_TOKEN=$kong_admin_token|" \
