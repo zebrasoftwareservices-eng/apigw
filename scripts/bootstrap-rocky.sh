@@ -11,7 +11,8 @@ if [[ ! -r /etc/os-release ]]; then
   exit 1
 fi
 
-# shellcheck disable=SC1091 -- this standard runtime file is verified above.
+# This standard runtime file is verified above.
+# shellcheck disable=SC1091
 source /etc/os-release
 if [[ "${ID:-}" != "rocky" || "${VERSION_ID%%.*}" != "9" ]]; then
   echo "This bootstrap script supports Rocky Linux 9 only." >&2
