@@ -82,6 +82,7 @@ services:
     environment:
       GATEWAY_DOMAIN: ${GATEWAY_DOMAIN:?GATEWAY_DOMAIN is required}
       ADMIN_DOMAIN: ${ADMIN_DOMAIN:?ADMIN_DOMAIN is required}
+      PORTAL_API_DOMAIN: ${PORTAL_API_DOMAIN:?PORTAL_API_DOMAIN is required}
       ACME_EMAIL: ${ACME_EMAIL:?ACME_EMAIL is required}
       KONG_ADMIN_TOKEN: ${KONG_ADMIN_TOKEN:?KONG_ADMIN_TOKEN is required}
     ports:
@@ -98,12 +99,16 @@ services:
         condition: service_healthy
     networks:
       - edge
+      - portal-edge
     logging: *default-logging
 
 networks:
   private:
     internal: true
   edge:
+  portal-edge:
+    name: portal-edge
+    external: true
 
 volumes:
   postgres-data:

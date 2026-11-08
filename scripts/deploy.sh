@@ -14,6 +14,7 @@ if grep -Eq '^[A-Z_]+=([^#]*example\.com|replace-with-a-random)' .env; then
   exit 1
 fi
 
+docker network inspect portal-edge >/dev/null 2>&1 || docker network create portal-edge >/dev/null
 docker compose config --quiet
 docker compose pull
 docker compose up -d --wait postgres
