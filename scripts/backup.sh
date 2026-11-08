@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-backup_dir="$repo_dir/backups"
+backup_dir="${BACKUP_DIR:-$repo_dir/backups}"
 timestamp="$(date -u +%Y%m%dT%H%M%SZ)"
 backup_file="$backup_dir/kong-$timestamp.dump"
 
