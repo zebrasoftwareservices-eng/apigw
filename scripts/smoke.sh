@@ -10,6 +10,7 @@ if [[ ! -f .env ]]; then
 fi
 
 set -a
+# shellcheck disable=SC1091 -- .env is generated at runtime and intentionally untracked.
 source .env
 set +a
 
